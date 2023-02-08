@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const app = express();
 const port = 3000;
@@ -18,6 +19,8 @@ app.get("/", (req, res) => {
 const register = require('./routes/register');
 app.use("/register", register);
 
+const login = require('./routes/login');
+app.use("/login", login);
 
 
 app.listen(port, () => {
