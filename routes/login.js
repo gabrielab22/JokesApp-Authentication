@@ -1,19 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const auth = require('./middleware/authJwt');
+const { authJwt } = require('../middleware/authJwt');
 const yup = require('yup');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models');
 
-const user = require('./routes/user');
-app.use("/user", login);
 
 router.post('/', async (req, res) => {
     try {
         const validate = await schema.validate(req.body)
         console.log("try block", validate)
+
+
+
 
         const user = await User.findOne({ where: { email: req.body.email } });
 

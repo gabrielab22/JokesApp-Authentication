@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const mysql = require('mysql');
+const authJwt = require('./middleware/authJwt')
 
 app.use(express.json());
 app.use(
@@ -21,6 +22,10 @@ app.use("/register", register);
 
 const login = require('./routes/login');
 app.use("/login", login);
+
+const meRouter = require('./routes/me');
+app.use("/me", authJwt.verifyToken, meRouter);
+
 
 
 app.listen(port, () => {

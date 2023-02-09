@@ -1,9 +1,7 @@
 const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config.js");
-const db = require("../models");
-const User = db.user;
+const { User } = require('../models');
 
-verifyToken = (req, res, next) => {
+verifyToken = async (req, res, next) => {
     let token = req.headers["x-access-token"];
 
     if (!token) {
@@ -12,13 +10,25 @@ verifyToken = (req, res, next) => {
         });
     }
 
-    jwt.verify(token, config.secret, (err, decoded) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
         if (err) {
             return res.status(401).send({
                 message: "Unauthorized!"
             });
         }
-        req.userId = decoded.id;
+        req.userId = decoded.user_id;
+
+
+        // const user = UserRepository.getUserById(req.userId)
+        const user = await User.findOne({ where: { id: req.userId } })
+
+        if (!user) {
+            return res.status(401).send({
+                message: "User not found!"
+            });
+        }
+
+        req.user = user.dataValues
         next();
     });
 };
