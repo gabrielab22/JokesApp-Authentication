@@ -11,7 +11,6 @@ const me = async (req, res) => {
 
 router.get("/", me);
 
-router.post("/test", me);
 
 // ovako na frontendu dohvaćan zaštićenu rutu
 

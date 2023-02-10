@@ -26,6 +26,9 @@ app.use("/login", login);
 const meRouter = require('./routes/me');
 app.use("/me", authJwt.verifyToken, meRouter);
 
+const sendEmailRouter = require('./routes/SendEmail');
+app.use("/send", authJwt.verifyToken, sendEmailRouter);
+
 
 
 app.listen(port, () => {
